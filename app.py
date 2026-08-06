@@ -201,4 +201,4 @@ async def get_web_page():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("app:app", host="127.0.0.1", port=port)
+    uvicorn.run("app:app", host="0.0.0.0", port=port)
