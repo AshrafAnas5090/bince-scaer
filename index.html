@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anas-Pro Radar V9</title>
+<style>
+:root{--bg:#070a0f;--panel:#0d131b;--panel2:#111923;--border:#202b38;--text:#e8eef5;--muted:#8795a6;--green:#0ecb81;--red:#f6465d;--gold:#f0b90b;--blue:#60a5fa;--purple:#a855f7;--cyan:#22d3ee;--shadow:0 12px 40px rgba(0,0,0,.28)}
+*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at top,#101827 0,#070a0f 42%,#05070b 100%);color:var(--text);font-family:'Segoe UI','Tahoma','Arial',sans-serif;font-size:13px}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1700px;margin:auto;padding:12px}.top{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;gap:12px;align-items:center;background:rgba(7,10,15,.94);backdrop-filter:blur(10px);border:1px solid var(--border);padding:10px 12px;border-radius:14px;box-shadow:var(--shadow)}
+.brand{font-weight:900;letter-spacing:.3px}.livebar{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--border);background:#0a0f15;color:var(--muted);padding:4px 7px;border-radius:999px;font-size:10px;font-variant-numeric:tabular-nums}.pill.live{color:var(--green);border-color:rgba(14,203,129,.35)}.pill.warn{color:var(--gold);border-color:rgba(240,185,11,.35)}.pill.bad{color:var(--red);border-color:rgba(246,70,93,.35)}
+.metrics{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.metric{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}.metric b{color:#dbe6f2}.controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:12px 0}.controls>*{height:36px}.btn,.select,.input{background:var(--panel);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:0 10px}.speed-box{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#151c28,#0a1017);border:1px solid rgba(240,185,11,.42);box-shadow:0 4px 14px rgba(0,0,0,.18);font-weight:800}.speed-box .speed-icon{color:var(--gold);font-size:14px}.speed-box .speed-label{color:#dce6f0;font-size:11px}.speed-select{min-width:92px!important;height:28px!important;border:1px solid rgba(240,185,11,.45)!important;background:#101824!important;color:#f6f8fb!important;border-radius:7px!important;font-weight:900!important;text-align:center}.btn.active{border-color:rgba(14,203,129,.45);color:var(--green);background:rgba(14,203,129,.08)}.btn.audio-on{border-color:rgba(14,203,129,.55);color:var(--green);background:rgba(14,203,129,.08)}.input{width:180px}.select{min-width:150px}
+.radar-shell{position:relative;margin:10px 0 12px}.radar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;overflow:hidden;padding:2px}.radar.hidden{display:none}.box{height:148px;min-width:0;background:linear-gradient(180deg,rgba(17,25,35,.98),rgba(8,13,19,.98));border:1px solid var(--border);border-radius:14px;padding:11px;box-shadow:var(--shadow);overflow:hidden}.box h3{margin:0 0 9px;font-size:12px;font-weight:900;letter-spacing:.2px}.items{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;min-height:92px;height:101px;padding:2px 0 7px;scrollbar-width:thin;scrollbar-color:#3d4c5f transparent}.items::-webkit-scrollbar{height:5px}.items::-webkit-scrollbar-track{background:transparent}.items::-webkit-scrollbar-thumb{background:#3d4c5f;border-radius:999px}.radar-chip{display:flex;flex:0 0 auto;flex-direction:column;justify-content:center;gap:3px;min-width:106px;height:52px;align-items:flex-start;border:1px solid #2c3a49;background:linear-gradient(180deg,#0d1520,#0a1017);border-radius:9px;padding:6px 8px;font-size:10px;line-height:1.15;box-shadow:0 3px 10px rgba(0,0,0,.15)}.radar-chip .symbol{font-weight:900;color:#f2f6fa;font-size:11px}.radar-chip .meta{font-weight:900;font-size:10px}.radar-chip .meta.green{color:var(--green)}.radar-chip .meta.red{color:var(--red)}.radar-chip .meta.gold{color:var(--gold)}.radar-chip .mini-note{display:block;color:#c7d3df;font-size:10px;margin-top:2px}.radar-toggle{position:absolute;left:0;top:-44px;z-index:2}.chip .x{color:#b9c6d3;border:0;background:none;padding:0}.green{color:var(--green)}.red{color:var(--red)}.gold{color:var(--gold)}.blue{color:var(--blue)}
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;background:rgba(8,12,17,.9);box-shadow:var(--shadow)}table{width:100%;border-collapse:separate;border-spacing:0;min-width:1180px}thead th{position:sticky;top:0;background:#0c131c;border-bottom:1px solid var(--border);color:#aebbc9;padding:6px 6px;text-align:right;font-size:11px;white-space:nowrap}.sortable{cursor:pointer}.sortable:hover{color:#fff}tbody td{border-bottom:1px solid rgba(32,43,56,.58);padding:5px 6px;vertical-align:middle;white-space:nowrap}.symbol{font-weight:900;cursor:pointer}.symbol-bull{color:var(--green)}.symbol-bear{color:var(--red)}.symbol-neutral{color:#dbe6f2}.star{opacity:.72;cursor:pointer;margin-left:4px}.star.fav{opacity:1;color:var(--gold)}.price{font-variant-numeric:tabular-nums}.pct{font-variant-numeric:tabular-nums;font-weight:700}.status-wrap{display:flex;gap:6px;flex-wrap:wrap;max-width:540px}.badge{display:inline-flex;align-items:center;gap:4px;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:900;border:1px solid currentColor;box-shadow:inset 0 -1px rgba(255,255,255,.03);letter-spacing:.05px}.mini{font-size:11px;color:#c7d3df;font-weight:700}.badge.pos{color:var(--green);background:rgba(14,203,129,.1)}.badge.neg{color:var(--red);background:rgba(246,70,93,.1)}.badge.warn{color:var(--gold);background:rgba(240,185,11,.08)}.badge.neutral{color:var(--blue);background:rgba(96,165,250,.08)}.score{font-weight:900;font-variant-numeric:tabular-nums}.score.high{color:var(--green)}.score.mid{color:var(--gold)}.score.low{color:#9ba8b6}.explain{display:block;margin-top:6px;color:#dbe7f2;font-size:11px;font-weight:800;white-space:normal;line-height:1.55;max-width:540px}.explain-bull{color:#59e1a7}.explain-bear{color:#ff7a8a}.explain-neutral{color:#f0c85b}.score-main{font-size:14px;font-weight:900}.score-sub{display:block;margin-top:4px;font-size:10px;color:#c5d1dd;font-weight:800}.guide{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.guide span{border:1px solid #273544;background:#0a1017;color:#c6d2de;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:700}.guide .g{color:var(--green)}.guide .r{color:var(--red)}.guide .y{color:var(--gold)}.btn-trade{border:1px solid var(--border);background:#0b1118;color:#dce6f0;border-radius:7px;padding:5px 8px}.empty{padding:24px;text-align:center;color:var(--muted)}.footer{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:10px;padding:10px 3px}.latency{font-variant-numeric:tabular-nums}.hide{display:none!important}
+@media(max-width:1000px){.top{align-items:flex-start;flex-direction:column}.metrics{justify-content:flex-start}.radar{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.box{height:132px;padding:8px}.box h3{font-size:10px;margin-bottom:6px}.items{height:90px;min-height:82px;gap:5px}.radar-chip{min-width:82px;height:48px;padding:5px 6px}.radar-chip .symbol{font-size:10px}.radar-chip .meta{font-size:9px}.controls{align-items:stretch}.radar-toggle{position:absolute;top:-40px;left:0}.speed-box{flex:1 1 100%;justify-content:space-between}}
+
+/* V16 compact monitoring layout */
+.symbol-cell{cursor:pointer;position:sticky;right:0;z-index:3;background:#0a1017;min-width:112px;max-width:112px;text-align:right;box-shadow:-2px 0 0 rgba(32,43,56,.65)}
+thead th:nth-child(1){position:sticky;right:0;z-index:8;background:#0c131c;min-width:112px;max-width:112px}
+.table-wrap{touch-action:pan-x;overscroll-behavior-x:contain;border-radius:10px}
+.status-wrap{max-width:480px}
+.radar-shell{margin:7px 0 9px}
+.radar{gap:8px;padding:0}
+.box{height:132px;padding:8px;border-radius:10px}
+.box h3{font-size:11px;margin-bottom:6px}
+.items{height:88px;min-height:82px;gap:5px;padding:0 0 5px}
+.radar-chip{min-width:92px;height:46px;padding:5px 6px;border-radius:8px;font-size:9px}
+.radar-chip .symbol{font-size:10px}
+.radar-chip .meta{font-size:9px}
+
+@media(max-width:700px){
+  .app{padding:4px}
+  .top{padding:6px 7px;border-radius:9px;gap:6px}
+  .brand{font-size:12px}
+  .livebar{gap:4px;width:100%}
+  .metrics{width:100%;gap:4px;justify-content:flex-start}
+  .pill{padding:3px 5px;font-size:9px}
+  .controls{margin:6px 0;gap:4px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  .controls>*{height:30px;flex:0 0 auto}
+  .input{width:120px}
+  .speed-box{flex:0 0 auto!important;padding:0 6px!important;gap:4px}
+  .speed-label{font-size:9px!important}
+  .speed-select{min-width:70px!important;height:24px!important}
+  .guide{display:none}
+  .radar-shell{margin:5px 0 6px;padding-top:0}
+  .radar-toggle{position:static;margin-bottom:5px;height:28px;font-size:10px;padding:0 8px}
+  .radar{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+  .box{height:108px;padding:6px;border-radius:8px;box-shadow:none}
+  .box h3{font-size:9px;margin-bottom:4px}
+  .items{height:74px;min-height:70px;gap:4px}
+  .radar-chip{min-width:78px;height:42px;padding:4px 5px;border-radius:7px}
+  .radar-chip .symbol{font-size:9px}
+  .radar-chip .meta{font-size:8px}
+  .table-wrap{border-radius:8px;box-shadow:none;margin-top:4px}
+  table{min-width:760px}
+  thead th{padding:4px 4px;font-size:10px}
+  tbody td{padding:4px 4px;font-size:10px}
+  .symbol-cell, thead th:nth-child(1){min-width:92px;max-width:92px}
+  .status-wrap{max-width:310px;gap:4px}
+  .badge{padding:4px 6px;font-size:10px;border-radius:6px}
+  .explain{font-size:9px;line-height:1.35;max-width:300px;margin-top:3px}
+  .score-main{font-size:12px}
+  .score-sub{font-size:9px;margin-top:2px}
+  .star{margin-left:2px;font-size:10px}
+  .symbol{font-size:11px}
+  .footer{font-size:9px;padding:6px 2px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="livebar">
+      <span class="brand">⚡ Anas‑Pro Radar V9</span>
+      <span id="clock" class="pill">Binance UTC: --:--:--</span>
+      <span id="transport" class="pill">● DATA: بدء</span>
+    </div>
+    <div class="metrics">
+      <span class="pill metric">السعر: <b id="mPrice">--</b></span>
+      <span class="pill metric">الصف: <b id="mRow">--</b></span>
+      <span class="pill metric">النسبة: <b id="mRatio">--</b></span>
+      <span class="pill metric">Kline: <b id="mKline">--</b></span>
+      <span class="pill metric">ناقصة: <b id="mMissing">--</b></span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn active" data-mode="both">الكل</button><button class="btn" data-mode="up">الصاعدة</button><button class="btn" data-mode="down">الهابطة</button><button class="btn" data-mode="fav">⭐ المفضلة</button>
+    <input id="search" class="input" placeholder="🔍 بحث عن عملة">
+    <select id="statusFilter" class="select"><option value="ALL">كل الحالات</option><option value="SIGNAL">الإشارات</option><option value="BULL">الإيجابية</option><option value="BEAR">السلبية</option><option value="BREAKOUT">اختراق</option><option value="BREAKDOWN">كسر</option><option value="SQUEEZE">ضغط</option></select>
+    <button id="audio" class="btn">🔇 الصوت</button>
+    <button id="reset" class="btn">إعادة الحالة</button>
+    <label class="btn speed-box"><span class="speed-icon">⚡</span><span class="speed-label">تحديث الواجهة</span><select id="uiRefresh" class="speed-select"><option value="1000" selected>1 ثانية</option><option value="2000">2 ثانية</option><option value="3000">3 ثوانٍ</option><option value="4000">4 ثوانٍ</option><option value="5000">5 ثوانٍ</option></select></label>
+  </div>
+
+  <div class="guide"><span class="g">🟢 صاعد = أدلة تميل للصعود</span><span class="r">🔴 هابط = أدلة تميل للهبوط</span><span class="y">🟡 مراقبة = الحركة موجودة لكن التأكيد ناقص</span><span>Score ≥ 75 قوي</span><span>60–74 جيد</span><span>45–59 محايد</span><span>≤ 44 ضعيف/هابط</span></div>
+  <div class="radar-shell">
+    <button id="toggleRadars" class="btn radar-toggle">📡 إخفاء الرادارات</button>
+    <div id="radarStrip" class="radar">
+      <div class="box"><h3 class="green">🚀 Radar صعود</h3><div id="pumpLog" class="items"><span class="mini">بانتظار الحركة...</span></div></div>
+      <div class="box"><h3 class="red">💥 Radar هبوط</h3><div id="dumpLog" class="items"><span class="mini">بانتظار الحركة...</span></div></div>
+      <div class="box"><h3 class="blue">⚡ جودة الإشارة</h3><div id="qualityLog" class="items"><span class="mini">تتكون تلقائياً من السعر + الحجم + البنية</span></div></div>
+    </div>
+  </div>
+  <div class="guide"><span class="g">🟢 Radar صعود = حركة قوية + تأكيد مناسب</span><span class="r">🔴 Radar هبوط = هبوط قوي + تأكيد مناسب</span><span class="y">🟡 1 ثانية موصى بها</span><span>WebSocket يستقبل البيانات فوراً؛ الاختيار يتحكم في سرعة الرسم فقط</span></div>
+
+  <div class="table-wrap"><table><thead><tr>
+    <th>العملة</th><th class="sortable" data-sort="price">السعر <span id="a-price">↕</span></th><th class="sortable" data-sort="change15">تغير 15د <span id="a-change15">↓</span></th><th>الحالات + التفسير 🎯</th><th class="sortable" data-sort="volume24">حجم 24س <span id="a-volume24">↕</span></th><th class="sortable" data-sort="score">Score <span id="a-score">↕</span></th>
+  </tr></thead><tbody id="rows"></tbody></table><div id="empty" class="empty hide">لا توجد نتائج.</div></div>
+  <div class="footer"><span>المصدر الأساسي: Binance WebSocket • REST للتهيئة والاسترداد فقط</span><span id="debug" class="latency">--</span></div>
+</div>
+<script>
+(() => {
+'use strict';
+const REST='https://fapi.binance.com/fapi/v1';
+const WS_MARKET='wss://fstream.binance.com/market/stream';
+const WS_PRICE='wss://fstream.binance.com/market/ws/!ticker@arr';
+const WS_MARK='wss://fstream.binance.com/market/ws/!markPrice@arr@1s';
+const INTERVAL=15*60*1000, H1=60*60*1000;
+const MAX_STREAMS=700, PRICE_STALE=7000, KLINE_STALE=10000, MARK_STALE=5000, RETRY=[500,1000,2000,4000,8000,15000,30000];
+const state={store:new Map(),symbols:[],mode:'both',search:'',status:'ALL',sort:'change15',dir:'desc',priceWS:null,markWS:null,klineWS:[],retry:{price:0,mark:0,kline:new Map()},timers:{},last:{price:0,row:0,ratio:0,kline:0,mark:0},messageCount:{price:0,kline:0,mark:0},missing:0,audio:false,audioCtx:null,audioGain:null,uiInterval:1000,pendingRows:new Set(),uiTimer:null,pumpLogs:[],dumpLogs:[],qualityLogs:[],lastAlertAt:0,radarInterval:1000,radarTimer:null,radarPending:false,radarsHidden:false};
+const $=id=>document.getElementById(id);
+
+function setTransport(text,tone='neutral'){const el=$('transport');el.textContent=text;el.className='pill '+(tone==='good'?'live':tone==='warn'?'warn':tone==='bad'?'bad':'')}
+function fmtPrice(v){if(!Number.isFinite(v))return '-'; if(v>=1000)return v.toLocaleString('en-US',{maximumFractionDigits:2}); if(v>=1)return v.toLocaleString('en-US',{maximumFractionDigits:4}); return v.toLocaleString('en-US',{maximumFractionDigits:8})}
+function fmtUsd(v){if(!Number.isFinite(v))return '$0'; return '$'+Math.round(v).toLocaleString('en-US')}
+function pct(v){const n=Number(v)||0; return `<span class="${n>=0?'green':'red'}">${n>=0?'+':''}${n.toFixed(2)}%</span>`}
+function scoreClass(n){return n>=75?'high':n>=55?'mid':'low'}
+function toneFor(key){if(['PUMP_SEVERE','PUMP_HEAVY','BREAKOUT','REVERSAL_UP','TRAP','SQUEEZE_RELEASE_UP','OVERSOLD'].includes(key))return'pos';if(['DUMP_SEVERE','DUMP_HEAVY','BREAKDOWN','REVERSAL_DOWN','FAKEOUT','SQUEEZE_RELEASE_DOWN','OVERBOUGHT'].includes(key))return'neg';if(['SQUEEZE','ABSORPTION','DISTRIBUTION','FLOW','LIQUIDATION'].includes(key))return'warn';return'neutral'}
+function label(key){return ({PUMP_SEVERE:'🚀 انفجار صاعد',PUMP_HEAVY:'🔥 شراء قوي',DUMP_SEVERE:'💥 انهيار حاد',DUMP_HEAVY:'🔻 بيع مكثف',BREAKOUT:'🎯 اختراق مؤكد',BREAKDOWN:'🩸 كسر مؤكد',REVERSAL_UP:'🔀 انعكاس صاعد',REVERSAL_DOWN:'🔀 انعكاس هابط',TRAP:'🪤 مصيدة دببة',FAKEOUT:'⚠️ كسر وهمي',ABSORPTION:'🛡️ امتصاص محتمل',DISTRIBUTION:'🟣 توزيع محتمل',SQUEEZE:'🗜️ ضغط سعري',SQUEEZE_RELEASE_UP:'⚡ تحرر ضغط صاعد',SQUEEZE_RELEASE_DOWN:'⚡ تحرر ضغط هابط',OVERSOLD:'⚠️ تشبع بيعي',OVERBOUGHT:'⚠️ تشبع شرائي',FLOW:'📊 تدفق مؤكد',LIQUIDATION:'💣 تصفيات ملحوظة'})[key]||key}
+
+function makeRow(sym){const tr=document.createElement('tr');tr.id='r-'+sym;tr.innerHTML=`<td class="symbol-cell" data-open="${sym}"><span class="star" data-fav="${sym}">⭐</span><span class="symbol symbol-neutral">${sym}</span></td><td class="price">-</td><td class="pct">+0.00%</td><td class="status-wrap"></td><td class="mini vol">$0</td><td class="score low">50</td>`;return tr}
+function ensure(sym){let d=state.store.get(sym);if(d)return d;d={symbol:sym,price:NaN,high24:NaN,low24:NaN,volume24:0,candle:null,prevCandle:null,volumeHistory:[],rangeHistory:[],highHistory:[],lowHistory:[],samples:[],momentum1:0,momentum5:0,h1Change:0,relativeVolume:0,compression:1,breakout:false,breakdown:false,funding:0,markPrice:NaN,score:50,direction:'neutral',confidence:'LOW',statuses:[],reason:'في انتظار اكتمال البيانات',fav:JSON.parse(localStorage.getItem('v9fav')||'[]').includes(sym),lastRow:0,lastRatio:0,radarPumpLogged:false,radarDumpLogged:false};state.store.set(sym,d);const row=makeRow(sym);$('rows').appendChild(row);return d}
+
+async function getJSON(path,opts={}){let lastErr;for(let i=0;i<3;i++){const c=new AbortController();const t=setTimeout(()=>c.abort(),opts.timeout||8000);try{const r=await fetch(REST+path,{cache:'no-store',signal:c.signal});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}catch(e){lastErr=e;await new Promise(r=>setTimeout(r,RETRY[Math.min(i,RETRY.length-1)]))}finally{clearTimeout(t)}}throw lastErr||new Error('REST failed')}
+
+async function bootstrap(){setTransport('● DATA: تهيئة السوق','warn');const info=await getJSON('/exchangeInfo',{timeout:10000});state.symbols=info.symbols.filter(s=>s.status==='TRADING'&&s.quoteAsset==='USDT'&&s.contractType==='PERPETUAL').map(s=>s.symbol);state.symbols.forEach(ensure);let snap;try{snap=await getJSON('/ticker/24hr',{timeout:12000})}catch{snap=await getJSON('/ticker/price',{timeout:10000}).then(a=>a.map(x=>({symbol:x.symbol,lastPrice:x.price,quoteVolume:0,highPrice:0,lowPrice:0})))}for(const x of snap){const d=state.store.get(x.symbol);if(!d)continue;d.price=Number(x.lastPrice)||d.price;d.high24=Number(x.highPrice)||d.high24;d.low24=Number(x.lowPrice)||d.low24;d.volume24=Number(x.quoteVolume)||d.volume24;renderRow(d)}state.missing=state.symbols.filter(s=>!Number.isFinite(state.store.get(s)?.price)).length;setTransport(state.missing?'◐ DATA: جزئي':'● DATA: REST جاهز',state.missing?'warn':'good');
+}
+
+function openWS(url,kind,onMessage){let ws;try{ws=new WebSocket(url)}catch{schedule(kind);return null}ws.binaryType='arraybuffer';ws.onopen=()=>{state.retry[kind]=0;if(kind==='price')state.last.price=Date.now();if(kind==='mark')state.last.mark=Date.now();if(kind==='kline')state.last.kline=Date.now();setTransport('● DATA: WebSocket مباشر','good')};ws.onmessage=e=>{try{const p=JSON.parse(typeof e.data==='string'?e.data:new TextDecoder().decode(e.data));onMessage(p)}catch{}};ws.onclose=()=>{if(kind==='kline'){const i=state.klineWS.indexOf(ws);if(i>=0)state.klineWS[i]=null} else if(kind==='price'&&state.priceWS===ws)state.priceWS=null; else if(kind==='mark'&&state.markWS===ws)state.markWS=null;schedule(kind)};ws.onerror=()=>{};return ws}
+function schedule(kind,index=null){const key=kind+(index??'');if(state.timers[key])return;const attempt=index==null?(state.retry[kind]||0):(state.retry.kline.get(index)||0);const delay=RETRY[Math.min(attempt,RETRY.length-1)];if(index==null)state.retry[kind]=(attempt+1);else state.retry.kline.set(index,attempt+1);state.timers[key]=setTimeout(()=>{delete state.timers[key]; if(kind==='price')connectPrice(); else if(kind==='mark')connectMark(); else connectKline(index)},delay+Math.random()*400)}
+function connectPrice(){if(state.priceWS&&[WebSocket.OPEN,WebSocket.CONNECTING].includes(state.priceWS.readyState))return;state.priceWS=openWS(WS_PRICE,'price',handleTicker)}
+function connectMark(){if(state.markWS&&[WebSocket.OPEN,WebSocket.CONNECTING].includes(state.markWS.readyState))return;state.markWS=openWS(WS_MARK,'mark',handleMark)}
+function buildKlineChunks(){
+  const perSocket=Math.max(1,Math.floor(MAX_STREAMS/2));
+  const chunks=[];
+  for(let i=0;i<state.symbols.length;i+=perSocket){
+    const part=state.symbols.slice(i,i+perSocket);
+    chunks.push(part.flatMap(s=>[`${s.toLowerCase()}@kline_15m`,`${s.toLowerCase()}@kline_1h`]));
+  }
+  return chunks;
+}
+function connectKline(index){
+  const chunks=buildKlineChunks();
+  const streams=chunks[index];
+  if(!streams||!streams.length)return;
+  const existing=state.klineWS[index];
+  if(existing&&[WebSocket.OPEN,WebSocket.CONNECTING].includes(existing.readyState))return;
+  let ws;
+  try{ws=new WebSocket(WS_MARKET)}catch{schedule('kline',index);return}
+  state.klineWS[index]=ws;
+  const stamp=Date.now();
+  state.last.kline=stamp;
+  ws.onopen=()=>{
+    if(state.klineWS[index]!==ws)return;
+    state.retry.kline.set(index,0);
+    state.last.kline=Date.now();
+    try{ws.send(JSON.stringify({method:'SUBSCRIBE',params:streams,id:`v10-${index}-${Date.now()}`}));}catch{}
+    setTransport(`● DATA: ${state.klineWS.filter(x=>x?.readyState===WebSocket.OPEN).length} Kline`,'good');
+  };
+  ws.onmessage=e=>{
+    if(state.klineWS[index]!==ws)return;
+    try{
+      const p=JSON.parse(typeof e.data==='string'?e.data:new TextDecoder().decode(e.data));
+      if(p.result!==undefined)return;
+      const d=p.data||p;
+      if(d?.e==='kline')handleKline(d);
+    }catch{}
+  };
+  ws.onerror=()=>{};
+  ws.onclose=()=>{
+    if(state.klineWS[index]!==ws)return;
+    state.klineWS[index]=null;
+    schedule('kline',index);
+  };
+}
+function ensureAudio(){
+  if(!state.audio) return false;
+  try{
+    const Ctx=window.AudioContext||window.webkitAudioContext;
+    if(!Ctx) return false;
+    if(!state.audioCtx) state.audioCtx=new Ctx();
+    if(state.audioCtx.state==='suspended') state.audioCtx.resume().catch(()=>{});
+    if(!state.audioGain){state.audioGain=state.audioCtx.createGain();state.audioGain.gain.value=0.045;state.audioGain.connect(state.audioCtx.destination);}
+    return state.audioCtx.state!=='closed';
+  }catch{return false}
+}
+function beep(freq=740,duration=0.10,type='sine',when=0){
+  if(!ensureAudio()) return;
+  try{
+    const ctx=state.audioCtx, osc=ctx.createOscillator(), gain=ctx.createGain();
+    osc.type=type; osc.frequency.value=freq;
+    gain.gain.setValueAtTime(0.0001,ctx.currentTime+when);
+    gain.gain.exponentialRampToValueAtTime(0.6,ctx.currentTime+when+0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+when+duration);
+    osc.connect(gain); gain.connect(state.audioGain); osc.start(ctx.currentTime+when); osc.stop(ctx.currentTime+when+duration+0.02);
+  }catch{}
+}
+function playAlert(kind='info'){
+  if(!state.audio) return;
+  const now=Date.now();
+  if(now-state.lastAlertAt<900) return;
+  state.lastAlertAt=now;
+  if(kind==='pump'){beep(780,0.10,'triangle',0);beep(1040,0.12,'triangle',0.12);}
+  else if(kind==='dump'){beep(420,0.12,'sawtooth',0);beep(280,0.14,'sawtooth',0.13);}
+  else {beep(620,0.10,'sine',0);}
+}
+function queueRender(d){if(!d)return;state.pendingRows.add(d.symbol);if(state.uiTimer)return;state.uiTimer=setTimeout(flushRows,state.uiInterval)}
+function flushRows(){state.uiTimer=null;const syms=[...state.pendingRows];state.pendingRows.clear();for(const sym of syms){const d=state.store.get(sym);if(d)renderRow(d)}resort()}
+function setUiInterval(ms){const allowed=[1000,2000,3000,4000,5000];const requested=Number(ms);const n=allowed.includes(requested)?requested:1000;state.uiInterval=n;try{localStorage.setItem('v12_ui_interval',String(n))}catch{}if(state.uiTimer){clearTimeout(state.uiTimer);state.uiTimer=null}if(state.pendingRows.size)state.uiTimer=setTimeout(flushRows,state.uiInterval);const sel=$('uiRefresh');if(sel)sel.value=String(n);updateHeader()}
+function renderRadar(type){
+  const el=$(type==='pump'?'pumpLog':type==='dump'?'dumpLog':'qualityLog');
+  if(!el)return;
+  const list=type==='pump'?state.pumpLogs:type==='dump'?state.dumpLogs:state.qualityLogs;
+  if(!list.length){el.innerHTML=`<span class="mini">${type==='pump'?'بانتظار حركة صعود...':type==='dump'?'بانتظار حركة هبوط...':'تتكون تلقائياً من التحليل'}</span>`;return;}
+  const tone=type==='pump'?'green':type==='dump'?'red':'gold';
+  el.innerHTML=list.slice(0,8).map(x=>`<span class="radar-chip"><span class="symbol">${x.text}</span><span class="meta ${tone}">${x.meta||''}</span></span>`).join('');
+}
+function renderAllRadars(){renderRadar('pump');renderRadar('dump');renderRadar('quality');}
+function queueRadarFlush(){
+  state.radarPending=true;
+  if(state.radarTimer)return;
+  state.radarTimer=setTimeout(()=>{state.radarTimer=null;if(!state.radarPending)return;state.radarPending=false;renderAllRadars();},state.radarInterval);
+}
+function radarTick(d){
+  if(!d||!Number.isFinite(d.change15))return;
+  const ch=d.change15;
+  const strongUp=ch>=3||(ch>=1.2&&d.score>=70&&d.relativeVolume>=1.5);
+  const strongDown=ch<=-3||(ch<=-1.2&&d.score<=40&&d.relativeVolume>=1.5);
+  let changed=false;
+  if(strongUp&&!d.radarPumpLogged){d.radarPumpLogged=true;state.pumpLogs.unshift({text:`🚀 ${d.symbol}`,meta:`+${ch.toFixed(2)}% • ${d.score}/100`});state.pumpLogs=state.pumpLogs.slice(0,8);playAlert('pump');changed=true;}
+  if(strongDown&&!d.radarDumpLogged){d.radarDumpLogged=true;state.dumpLogs.unshift({text:`💥 ${d.symbol}`,meta:`${ch.toFixed(2)}% • ${d.score}/100`});state.dumpLogs=state.dumpLogs.slice(0,8);playAlert('dump');changed=true;}
+  if(d.score>=75){
+    const item={symbol:d.symbol,text:d.symbol,meta:`${d.score}/100`};
+    const i=state.qualityLogs.findIndex(x=>x.symbol===d.symbol);
+    if(i>=0)state.qualityLogs[i]=item;else state.qualityLogs.unshift(item);
+    state.qualityLogs=state.qualityLogs.slice(0,8);changed=true;
+  }
+  if(changed)queueRadarFlush();
+}
+function setRadarInterval(ms){const allowed=[500,1000,2000,3000];const n=allowed.includes(Number(ms))?Number(ms):1000;state.radarInterval=n;try{localStorage.setItem('v14_radar_interval',String(n));}catch{}if(state.radarTimer){clearTimeout(state.radarTimer);state.radarTimer=null;}if(state.radarPending)queueRadarFlush();}
+function toggleRadars(){state.radarsHidden=!state.radarsHidden;const strip=$('radarStrip'),btn=$('toggleRadars');if(strip)strip.classList.toggle('hidden',state.radarsHidden);if(btn)btn.textContent=state.radarsHidden?'📡 إظهار الرادارات':'📡 إخفاء الرادارات';try{localStorage.setItem('v14_radars_hidden',state.radarsHidden?'1':'0');}catch{}}
+function enableRadarDrag(){const strip=$('radarStrip');if(!strip)return;let down=false,startX=0,startScroll=0;strip.addEventListener('pointerdown',e=>{down=true;startX=e.clientX;startScroll=strip.scrollLeft;strip.classList.add('dragging');strip.setPointerCapture?.(e.pointerId);});strip.addEventListener('pointermove',e=>{if(!down)return;strip.scrollLeft=startScroll-(e.clientX-startX);});const up=()=>{down=false;strip.classList.remove('dragging');};strip.addEventListener('pointerup',up);strip.addEventListener('pointercancel',up);}
+
+function handleTicker(packet){const arr=Array.isArray(packet)?packet:[packet];state.last.price=Date.now();state.messageCount.price++;for(const x of arr){const sym=x?.s;if(!sym||!state.store.has(sym))continue;const d=state.store.get(sym);const price=Number(x.c), q=Number(x.q);if(!Number.isFinite(price))continue;d.price=price;d.volume24=Number.isFinite(q)?q:d.volume24;if(Number.isFinite(Number(x.h)))d.high24=Number(x.h);if(Number.isFinite(Number(x.l)))d.low24=Number(x.l);if(d.candle?.open)d.candle.close=price;updateSamples(d);evaluate(d);radarTick(d);queueRender(d)}}
+function handleMark(packet){const arr=Array.isArray(packet)?packet:[packet];state.last.mark=Date.now();state.messageCount.mark++;for(const x of arr){const sym=x?.s;if(!sym||!state.store.has(sym))continue;const d=state.store.get(sym);d.markPrice=Number(x.p)||d.markPrice;d.funding=Number(x.r)||d.funding}}
+function handleKline(p){state.last.kline=Date.now();state.messageCount.kline++;const k=p.k,sym=k?.s||p.s;if(!sym||!k||!state.store.has(sym))return;const d=state.store.get(sym);const start=Number(k.t),interval=k.i,close=Number(k.c),open=Number(k.o),high=Number(k.h),low=Number(k.l),q=Number(k.q);if(!d.candle||d.candle.start!==start||d.candle.interval!==interval){if(d.candle&&interval==='15m'&&d.candle.start<start){d.prevCandle={...d.candle};if(d.prevCandle.quoteVol>0){d.volumeHistory.push(d.prevCandle.quoteVol);if(d.volumeHistory.length>20)d.volumeHistory.shift()}if(d.prevCandle.range>0){d.rangeHistory.push(d.prevCandle.range);if(d.rangeHistory.length>20)d.rangeHistory.shift()}if(Number.isFinite(d.prevCandle.high)&&Number.isFinite(d.prevCandle.low)){d.highHistory.push(d.prevCandle.high);d.lowHistory.push(d.prevCandle.low);if(d.highHistory.length>20)d.highHistory.shift();if(d.lowHistory.length>20)d.lowHistory.shift()}}d.candle={start,interval,open,high,low,close,quoteVol:q,closed:Boolean(k.x),range:Math.max(0,high-low)};if(interval==='15m'){d.radarPumpLogged=false;d.radarDumpLogged=false}}else{d.candle.open=open;d.candle.high=high;d.candle.low=low;d.candle.close=close;d.candle.quoteVol=q;d.candle.closed=Boolean(k.x);d.candle.range=Math.max(0,high-low)}if(interval==='15m'){d.price=close;d.relativeVolume=calcRelVol(d);evaluate(d);radarTick(d);queueRender(d)}else if(interval==='1h'){d.h1Change=open>0?((close-open)/open)*100:0}}
+function updateSamples(d){const now=Date.now();d.samples.push({t:now,p:d.price});while(d.samples.length&&d.samples[0].t<now-6*60*1000)d.samples.shift();const at=t=>{for(let i=d.samples.length-1;i>=0;i--)if(d.samples[i].t<=t)return d.samples[i].p;return d.samples[0]?.p||d.price};const p1=at(now-60000),p5=at(now-300000);d.momentum1=p1>0?((d.price-p1)/p1)*100:0;d.momentum5=p5>0?((d.price-p5)/p5)*100:0}
+function calcRelVol(d){if(!d.candle||!d.volumeHistory.length)return 0;const avg=d.volumeHistory.reduce((a,b)=>a+b,0)/d.volumeHistory.length;const elapsed=Math.max(5000,Math.min(INTERVAL,Date.now()-d.candle.start));const frac=elapsed/INTERVAL;const expected=Math.max(avg*frac,avg*0.05);return expected>0?d.candle.quoteVol/expected:0}
+function evaluate(d){
+const c=d.candle;if(!c||!Number.isFinite(d.price)||!Number.isFinite(c.open)||c.open<=0){d.reason='في انتظار بيانات الشمعة';return;}
+const ch=((d.price-c.open)/c.open)*100;d.change15=ch;
+const body=Math.abs(d.price-c.open), range=Math.max(c.high-c.low,Number.EPSILON);
+const upper=Math.max(0,c.high-Math.max(c.open,d.price)), lower=Math.max(0,Math.min(c.open,d.price)-c.low);
+const bodyRatio=body/range;
+const rangeAvg=d.rangeHistory.length?d.rangeHistory.reduce((a,b)=>a+b,0)/d.rangeHistory.length:range;
+d.compression=rangeAvg>0?range/rangeAvg:1;
+const priorHigh=d.highHistory.length?Math.max(...d.highHistory):NaN;
+const priorLow=d.lowHistory.length?Math.min(...d.lowHistory):NaN;
+d.breakout=Number.isFinite(priorHigh)&&d.price>priorHigh*(1+0.0015);
+d.breakdown=Number.isFinite(priorLow)&&d.price<priorLow*(1-0.0015);
+const s=[];
+if(ch>=3)s.push({k:'PUMP_SEVERE',p:95}); else if(ch>=1.2)s.push({k:'PUMP_HEAVY',p:72});
+if(ch<=-3)s.push({k:'DUMP_SEVERE',p:95}); else if(ch<=-1.2)s.push({k:'DUMP_HEAVY',p:72});
+if(d.breakout&&d.relativeVolume>=1.5)s.push({k:'BREAKOUT',p:90});
+if(d.breakdown&&d.relativeVolume>=1.5)s.push({k:'BREAKDOWN',p:90});
+if(d.momentum5<-1&&ch>0.6)s.push({k:'REVERSAL_UP',p:60});
+if(d.momentum5>1&&ch<-0.6)s.push({k:'REVERSAL_DOWN',p:60});
+if(d.relativeVolume>=2.2&&lower>body*1.3&&ch<0)s.push({k:'ABSORPTION',p:58});
+if(d.relativeVolume>=2.2&&upper>body*1.3&&ch>0)s.push({k:'DISTRIBUTION',p:58});
+if(d.compression<0.65&&d.relativeVolume<0.9)s.push({k:'SQUEEZE',p:55});
+if(d.compression<0.72&&d.relativeVolume>1.35&&d.momentum1>0.4)s.push({k:'SQUEEZE_RELEASE_UP',p:68});
+if(d.compression<0.72&&d.relativeVolume>1.35&&d.momentum1<-0.4)s.push({k:'SQUEEZE_RELEASE_DOWN',p:68});
+if(ch>=7)s.push({k:'OVERBOUGHT',p:45});
+if(ch<=-7)s.push({k:'OVERSOLD',p:45});
+if(d.relativeVolume>=2.5)s.push({k:'FLOW',p:50});
+d.statuses=s.sort((a,b)=>b.p-a.p).slice(0,5);
+
+// Beginner-friendly score: each block answers one simple question.
+let score=50;const reasons=[];const positives=[];const negatives=[];
+const add=(pts,text,good)=>{score+=pts;(good?positives:negatives).push(text)};
+// 1) 15m direction
+const movePts=Math.max(-18,Math.min(18,ch*3.6));add(movePts,`حركة 15د ${ch>=0?'+':''}${ch.toFixed(2)}%`,movePts>=0);
+// 2) 5m momentum
+const momPts=Math.max(-10,Math.min(10,d.momentum5*2.5));add(momPts,`زخم 5د ${d.momentum5>=0?'+':''}${d.momentum5.toFixed(2)}%`,momPts>=0);
+// 3) 1h context
+if(Number.isFinite(d.h1Change)){const hPts=Math.max(-10,Math.min(10,d.h1Change*1.8));add(hPts,`اتجاه 1س ${d.h1Change>=0?'+':''}${d.h1Change.toFixed(2)}%`,hPts>=0)}
+// 4) volume
+if(d.relativeVolume>=3){add(ch>=0?13:-13,`حجم قوي ${d.relativeVolume.toFixed(1)}x`,ch>=0)}
+else if(d.relativeVolume>=2){add(ch>=0?9:-9,`حجم مرتفع ${d.relativeVolume.toFixed(1)}x`,ch>=0)}
+else if(d.relativeVolume>=1.5){add(ch>=0?5:-5,`حجم داعم ${d.relativeVolume.toFixed(1)}x`,ch>=0)}
+// 5) level confirmation
+if(d.breakout){add(12,'اختراق أعلى نطاق سابق',true)}
+if(d.breakdown){add(-12,'كسر أسفل نطاق سابق',false)}
+// 6) candle quality / rejection
+if(bodyRatio>=0.6){add(ch>=0?4:-4,`شمعة اتجاهية قوية ${Math.round(bodyRatio*100)}% من المدى`,ch>=0)}
+if(upper>body*2&&ch>0){add(-4,'رفض علوي واضح',false)}
+if(lower>body*2&&ch<0){add(4,'رفض سفلي واضح',true)}
+// 7) squeeze/release context
+if(d.compression<0.65) reasons.push('السوق مضغوط؛ انتظر اتجاه الخروج');
+if(d.compression<0.72&&d.relativeVolume>1.35){add(d.momentum1>0?5:-5,`تحرر ضغط ${d.momentum1>=0?'صاعد':'هابط'}`,d.momentum1>0)}
+score=Math.max(0,Math.min(100,Math.round(score)));d.score=score;
+d.direction=score>=60?'bull':score<=40?'bear':'neutral';
+d.confidence=score>=78||score<=22?'HIGH':score>=60||score<=40?'MEDIUM':'LOW';
+const mainPositive=positives.slice(0,2),mainNegative=negatives.slice(0,2);
+const baseReason=d.direction==='bull'?(mainPositive.length?mainPositive.join(' + '):'أفضلية صاعدة عامة') : d.direction==='bear'?(mainNegative.length?mainNegative.join(' + '):'أفضلية هابطة عامة') : 'لا توجد أفضلية واضحة بعد';
+d.reason=baseReason + (reasons.length?` • ${reasons[0]}`:'');
+state.last.ratio=Date.now();
+}
+function renderRow(d){const tr=$('r-'+d.symbol);if(!tr)return;state.last.row=Date.now();tr.querySelector('.price').textContent=Number.isFinite(d.price)?'$'+fmtPrice(d.price):'-';tr.querySelector('.pct').innerHTML=Number.isFinite(d.change15)?pct(d.change15):`<span class="mini">بانتظار شمعة 15د</span>`;const sw=tr.querySelector('.status-wrap');const badges=d.statuses.length?d.statuses.map(s=>`<span class="badge ${toneFor(s.k)}">${label(s.k)}</span>`).join(''):`<span class="mini">${d.candle?'لا إشارة قوية':'مزامنة 15د…'}</span>`;const explainTone=d.direction==='bull'?'explain-bull':d.direction==='bear'?'explain-bear':'explain-neutral';sw.innerHTML=badges+`<span class="explain ${explainTone}">💡 ${d.reason||'في انتظار مزيد من البيانات'}</span>`;tr.querySelector('.vol').textContent=fmtUsd(d.volume24);const sc=tr.querySelector('.score');sc.innerHTML=`<span class="score-main">${Number.isFinite(d.score)?d.score:50}</span><span class="score-sub">${d.confidence==='HIGH'?'ثقة عالية':d.confidence==='MEDIUM'?'ثقة متوسطة':'ثقة منخفضة'}</span>`;sc.className='score '+scoreClass(d.score);const sym=tr.querySelector('.symbol');sym.className='symbol '+(d.direction==='bull'?'symbol-bull':d.direction==='bear'?'symbol-bear':'symbol-neutral');tr.querySelector('.star').classList.toggle('fav',d.fav);renderScoreBadge(d)}
+function renderScoreBadge(d){let node=$('qualityLog');if(d.score<70)return;const txt=`${d.symbol} ${d.score}/100 ${d.confidence}`;const exists=[...node.children].find(x=>x.dataset.s===d.symbol);if(exists){exists.textContent=txt;return}const el=document.createElement('span');el.className='chip';el.dataset.s=d.symbol;el.textContent=txt;node.prepend(el);while(node.children.length>8)node.lastChild.remove()}
+function passes(d){if(!d)return false;if(state.search&&!d.symbol.includes(state.search))return false;if(state.mode==='fav'&&!d.fav)return false;if(state.mode==='up'&&(d.change15||0)<0)return false;if(state.mode==='down'&&(d.change15||0)>0)return false;if(state.status==='SIGNAL'&&!(d.score>=60||d.score<=40))return false;if(state.status==='BULL'&&d.direction!=='bull')return false;if(state.status==='BEAR'&&d.direction!=='bear')return false;if(state.status!=='ALL'&&!['SIGNAL','BULL','BEAR'].includes(state.status)&&!(d.statuses.some(s=>s.k===state.status)))return false;return true}
+function resort(){const body=$('rows');const rows=[...body.children].sort((a,b)=>{const A=state.store.get(a.id.slice(2)),B=state.store.get(b.id.slice(2));const av=Number(A?.[state.sort])||0,bv=Number(B?.[state.sort])||0;return state.dir==='desc'?bv-av:av-bv});rows.forEach(r=>body.appendChild(r));for(const d of state.store.values())$('r-'+d.symbol).style.display=passes(d)?'':'none';$('empty').classList.toggle('hide',[...state.store.values()].some(passes))}
+function applyFilters(){state.search=$('search').value.trim().toUpperCase();state.status=$('statusFilter').value;resort()}
+function updateSort(field){if(state.sort===field)state.dir=state.dir==='desc'?'asc':'desc';else{state.sort=field;state.dir='desc'};document.querySelectorAll('[id^="a-"]').forEach(x=>x.textContent='↕');$('a-'+field).textContent=state.dir==='desc'?'↓':'↑';resort()}
+function updateHeader(){const now=Date.now();$('clock').textContent='Binance UTC: '+new Date(now+timeOffset).toISOString().slice(11,19);const age=n=>n?Math.max(0,now-n):Infinity;const f=x=>!Number.isFinite(x)?'--':x<1000?Math.round(x)+'ms':(x/1000).toFixed(1)+'s';$('mPrice').textContent=f(age(state.last.price));$('mRow').textContent=f(age(state.last.row));$('mRatio').textContent=f(age(state.last.ratio));$('mKline').textContent=f(age(state.last.kline));$('mMissing').textContent=String([...state.store.values()].filter(d=>!Number.isFinite(d.price)).length);$('debug').textContent=`UI:${state.uiInterval}ms • P:${state.messageCount.price} K:${state.messageCount.kline} M:${state.messageCount.mark}`;}
+async function syncTime(){try{const a=performance.now(),r=await getJSON('/time',{timeout:5000}),b=performance.now();timeOffset=Number(r.serverTime)-(Date.now()-Math.round((b-a)/2))}catch{}}
+let timeOffset=0;
+async function priceRescue(){const missing=[...state.store.values()].filter(d=>!Number.isFinite(d.price));if(!missing.length)return;try{const arr=await getJSON('/ticker/price',{timeout:8000});for(const x of arr){const d=state.store.get(x.symbol);if(d&&!Number.isFinite(d.price)){d.price=Number(x.price);evaluate(d);radarTick(d);queueRender(d)}}}catch{}}
+function health(){const now=Date.now();if(!state.priceWS||state.priceWS.readyState===WebSocket.CLOSED||now-state.last.price>PRICE_STALE)connectPrice();if(!state.markWS||state.markWS.readyState===WebSocket.CLOSED||now-state.last.mark>MARK_STALE)connectMark();state.klineWS.forEach((ws,i)=>{if(!ws||ws.readyState===WebSocket.CLOSED||now-state.last.kline>KLINE_STALE)connectKline(i)});if(now-state.last.price>PRICE_STALE)priceRescue()}
+function schedule24hReconnect(){setTimeout(()=>{[state.priceWS,state.markWS,...state.klineWS].forEach(ws=>{try{ws?.close(4002,'planned refresh')}catch{}})},23*60*60*1000+30*60*1000)}
+function bind(){document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-mode]').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.mode=b.dataset.mode;resort()});$('search').oninput=applyFilters;$('statusFilter').onchange=applyFilters;document.querySelectorAll('[data-sort]').forEach(th=>th.onclick=()=>updateSort(th.dataset.sort));document.addEventListener('click',e=>{const s=e.target.closest('[data-fav]');if(s){const d=state.store.get(s.dataset.fav);if(d){d.fav=!d.fav;const favs=[...state.store.values()].filter(x=>x.fav).map(x=>x.symbol);localStorage.setItem('v9fav',JSON.stringify(favs));renderRow(d);resort()}}const o=e.target.closest('[data-open]');if(o && !e.target.closest('[data-fav]')) window.open('https://www.binance.com/en/futures/'+o.dataset.open,'_blank','noopener')});$('audio').onclick=()=>{state.audio=!state.audio;const btn=$('audio');btn.textContent=state.audio?'🔊 الصوت: مفعل':'🔇 الصوت: متوقف';btn.classList.toggle('audio-on',state.audio);if(state.audio){ensureAudio();playAlert('info')}};$('reset').onclick=()=>location.reload();$('uiRefresh').onchange=e=>setUiInterval(Number(e.target.value));$('toggleRadars').onclick=toggleRadars;}
+async function boot(){bind();await syncTime();await bootstrap();connectPrice();connectMark();const chunks=buildKlineChunks();state.klineWS=new Array(chunks.length).fill(null);for(let i=0;i<chunks.length;i++)connectKline(i);setInterval(updateHeader,250);setInterval(health,1000);setTimeout(()=>{if(state.messageCount.kline===0){state.klineWS.forEach((ws,i)=>{try{ws?.close(4003,'kline-bootstrap-retry')}catch{}});}},8000);setInterval(syncTime,300000);schedule24hReconnect();let savedUi=1000;try{savedUi=Number(localStorage.getItem('v12_ui_interval'))||1000}catch{}if(![1000,2000,3000,4000,5000].includes(savedUi))savedUi=1000;setUiInterval(savedUi);let savedRadar=1000,hidden=false;try{savedRadar=Number(localStorage.getItem('v14_radar_interval'))||1000;hidden=localStorage.getItem('v14_radars_hidden')==='1'}catch{}setRadarInterval(savedRadar);if(hidden)toggleRadars();resort();updateHeader()}
+boot().catch(e=>{console.error(e);setTransport('● DATA: فشل البدء','bad')});
+})();
+</script></body></html>
